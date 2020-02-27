@@ -83,7 +83,13 @@ module.exports = bundler => {
                         return;
                     }
 
-                    const dest = filepath.replace(staticDir, bundleDir);
+                    let dest = filepath.replace(staticDir, bundleDir);
+                    if (config.rename) {
+                        for (const [key, value] of Object.entries(config.rename)) {
+                            dest = dest.replace(key, value);
+                        }
+                    }
+
                     if (!filename) {
                         fs.mkdirSync(filepath, dest);
                     } else {
